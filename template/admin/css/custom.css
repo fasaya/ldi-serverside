@@ -1,0 +1,159 @@
+/* Add here all your CSS customizations */
+
+/* login */
+
+.body-sign .card-sign .card-title-sign .title{
+	background-color: #ffc107 !important;
+}
+
+.body-sign .card-sign .card-body{
+    border-top-color: #ffc107 !important;
+}
+
+.btn-login{
+    background-color: #ffc107;
+    border-color: #ffc107 #ffc107 #e6ac00;
+    color: #FFF;
+}
+
+.page-header h2{
+    border-bottom-color: #ffc107;
+}
+
+html.no-overflowscrolling .nano > .nano-pane > .nano-slider{
+    background: #ffc107;
+}
+
+/* card hijau-1 */
+.bg-hijau-1{
+    background-color: #28a745 !important;
+}
+.card-body.bg-hijau-1{
+    background: #47a447;
+    color: #FFF;
+}
+.card-header-icon.bg-hijau-1 {
+	background: #47a447;
+	color: #FFF;
+}
+.card-header.bg-hijau-1 {
+	background: #47a447;
+	color: #FFF;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+.bg-hijau-1 .widget-summary .summary .title, .bg-hijau-1 .widget-summary .summary .amount {
+	color: #FFF !important;
+}
+.bg-hijau-1 .widget-summary .summary-icon {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.bg-hijau-1 .widget-summary .summary-footer {
+	border-top: 1px solid #fff;
+	border-top-color: rgba(255, 255, 255, 0.2);
+}
+.bg-hijau-1 .widget-summary .summary-footer a {
+	color: #FFF;
+	opacity: 0.6;
+}
+
+
+/* card hijau-2 */
+.bg-hijau-2{
+    background-color: #2dbc4e !important;
+}
+.card-body.bg-hijau-2{
+    background: #28a745;
+    color: #FFF;
+}
+.card-header-icon.bg-hijau-2 {
+	background: #28a745;
+	color: #FFF;
+}
+.card-header.bg-hijau-2 {
+	background: #28a745;
+	color: #FFF;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+.bg-hijau-2 .widget-summary .summary .title, .bg-hijau-2 .widget-summary .summary .amount {
+	color: #FFF !important;
+}
+.bg-hijau-2 .widget-summary .summary-icon {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.bg-hijau-2 .widget-summary .summary-footer {
+	border-top: 1px solid #fff;
+	border-top-color: rgba(255, 255, 255, 0.2);
+}
+.bg-hijau-2 .widget-summary .summary-footer a {
+	color: #FFF;
+	opacity: 0.6;
+}
+
+/* card kuning-1 */
+.bg-kuning-1{
+    background-color: #ed9c28 !important;
+}
+.card-body.bg-kuning-1{
+    background: #ed9c28;
+    color: #FFF;
+}
+.card-header-icon.bg-kuning-1 {
+	background: #ed9c28;
+	color: #FFF;
+}
+.card-header.bg-kuning-1 {
+	background: #ed9c28;
+	color: #FFF;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+.bg-kuning-1 .widget-summary .summary .title, .bg-kuning-1 .widget-summary .summary .amount {
+	color: #FFF !important;
+}
+.bg-kuning-1 .widget-summary .summary-icon {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.bg-kuning-1 .widget-summary .summary-footer {
+	border-top: 1px solid #fff;
+	border-top-color: rgba(255, 255, 255, 0.2);
+}
+.bg-kuning-1 .widget-summary .summary-footer a {
+	color: #FFF;
+	opacity: 0.6;
+}
+
+
+/* card ungu-1 */
+.bg-ungu-1{
+    background-color: #bc2d9b !important;
+}
+.card-body.bg-ungu-1{
+    background: #bc2d9b;
+    color: #FFF;
+}
+.card-header-icon.bg-ungu-1 {
+	background: #bc2d9b;
+	color: #FFF;
+}
+.card-header.bg-ungu-1 {
+	background: #bc2d9b;
+	color: #FFF;
+	border-bottom: 0 none;
+	border-right: 0 none;
+}
+.bg-ungu-1 .widget-summary .summary .title, .bg-ungu-1 .widget-summary .summary .amount {
+	color: #FFF !important;
+}
+.bg-ungu-1 .widget-summary .summary-icon {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+.bg-ungu-1 .widget-summary .summary-footer {
+	border-top: 1px solid #fff;
+	border-top-color: rgba(255, 255, 255, 0.2);
+}
+.bg-ungu-1 .widget-summary .summary-footer a {
+	color: #FFF;
+	opacity: 0.6;
+}

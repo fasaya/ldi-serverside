@@ -1,0 +1,134 @@
+/* Add here all your CSS customizations */
+
+
+/* home */
+
+html .border-color-primary {
+	border-color: #ffc107 !important;
+}
+
+#header .header-nav.header-nav-line nav > ul li:hover > a {
+    color: #28a745 !important;
+}
+
+#header .header-nav.header-nav-line nav > ul li:hover > a:before {
+    background: #28a745 !important;
+}
+
+#footer .footer-ribbon {
+	background: #ffc107 !important;
+}
+
+#footer .footer-ribbon:before {
+	border-right-color: #eeb200 !important;
+	border-left-color: #eeb200 !important;
+}
+
+#footer {
+    background: #fff !important;
+    border-top: 4px solid #28a745 !important;
+}
+
+#header .header-btn-collapse-nav {
+	background: #28a745;
+}
+
+@media (max-width: 991px) {
+	#header .header-nav-main:not(.header-nav-main-mobile-dark) nav > ul > li > a {
+		color: #28a745;
+	}
+
+	#header .header-nav-main:not(.header-nav-main-mobile-dark) nav > ul > li > a:active {
+		color: #28a745;
+	}
+
+	#header .header-nav-main:not(.header-nav-main-mobile-dark) nav > ul > li > a.active {
+		background: #28a745;
+	}
+
+	#header .header-nav-main:not(.header-nav-main-mobile-dark) nav > ul > li > a.active:focus,
+	#header .header-nav-main:not(.header-nav-main-mobile-dark) nav > ul > li > a.active:hover {
+		background: #28a745;
+    }
+}
+
+#footer a:not(.btn):hover {
+	text-decoration: none !important;
+	color: #28a745 !important;
+}
+
+
+html .featured-box-success .icon-featured {
+	background-color: #28a745;
+}
+
+html .featured-box-success h4 {
+	color: #28a745;
+}
+
+html .featured-box-success .box-content {
+	border-top-color: #28a745;
+}
+
+html .featured-box-success .box-content-border-bottom {
+	border-bottom-color: #28a745;
+}
+
+html .featured-box-warning .icon-featured {
+	background-color: #eeb200;
+}
+
+html .featured-box-warning h4 {
+	color: #eeb200;
+}
+
+html .featured-box-warning .box-content {
+	border-top-color: #eeb200;
+}
+
+html .featured-box-warning .box-content-border-bottom {
+	border-bottom-color: #eeb200;
+}
+
+html .text-color-primary, html .text-primary{
+	color: #28a745 !important;
+}
+
+html .featured-boxes-style-4 .featured-box.featured-box-success .icon-featured {
+	border-color: #28a745;
+	color: #28a745;
+}
+
+html .featured-boxes-style-4 .featured-box.featured-box-warning .icon-featured {
+	border-color: #eeb200;
+	color: #eeb200;
+}
+
+html .blockquote-primary{
+	border-color: #ffc107 !important;
+}
+
+a{
+	color: #28a745;
+}
+
+.thumb-info .thumb-info-type, .thumb-info .thumb-info-action-icon, .thumb-info-social-icons a, .thumbnail .zoom, .img-thumbnail .zoom, .thumb-info-ribbon{
+	background-color: #28a745;
+}
+
+a:hover {
+    color: #ffc107;
+}
+
+.list.list-icons li > [class*="fa-"]:first-child, .list.list-icons li a:first-child > [class*="fa-"]:first-child, .list.list-icons li > .icons:first-child, .list.list-icons li a:first-child > .icons:first-child {
+	color: #ffc107 !important;
+	border-color: #ffc107 !important;
+}
+
+.recent-posts .date .day, article.post .post-date .day{
+	color: #28a745 !important;
+}
+
+.recent-posts .date .month, article.post .post-date .month{
+	background-color: #28a745 !important;
+}

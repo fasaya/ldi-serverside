@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /dashboard/uploads/*$
+
+User-agent: *
+Disallow: /dashboard/uploads/
+
+User-agent: *
+Disallow: /*.gif$
+
+User-agent: *
+Disallow: /*.jpg$
+
+User-agent: *
+Disallow: /*.png$
+
+User-agent: *
+Disallow: /*.pdf$
