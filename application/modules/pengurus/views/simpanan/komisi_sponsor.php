@@ -33,7 +33,7 @@
                 </header>
                 <div class="card-body">
                     <a href="<?= base_url() ?>pengurus/simpanan/exportkomisipromosi" target="_blank" class="btn btn-default mb-3">Export</a>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -44,23 +44,6 @@
                                 <th>Jumlah</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($komisisponsor as $r) { ?>
-                                <tr>
-                                    <td class="text-center"><?= $no; ?>.</td>
-                                    <td><?= $r->date; ?></td>
-                                    <td>
-                                        <b class="text-primary"><?= $r->no_anggota; ?></b><br>
-                                        <?= $r->nama; ?>
-                                    </td>
-                                    <td><?= $r->kode_tr_ks; ?></td>
-                                    <td><?= $r->kode_tr_ss; ?></td>
-                                    <td><?= $this->Helper->setting('CURRENCY') ?> <?= rupiah($r->amount); ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php } ?>
-                        </tbody>
                     </table>
                 </div>
             </section>
@@ -69,3 +52,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/simpanan/fetch_komisisponsor'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 4],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

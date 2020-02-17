@@ -48,6 +48,10 @@
 	<!-- Head Libs -->
 	<script src="<?= base_url() ?>template/admin/vendor/modernizr/modernizr.js"></script>
 
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+	<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+
 </head>
 
 <body>

@@ -32,7 +32,7 @@
                     <!-- <p class="card-subtitle">A bar chart is a way of summarizing a set of categorical data.</p> -->
                 </header>
                 <div class="card-body">
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -42,27 +42,7 @@
                                 <th>Edit</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($list_anggota as $r) {
-                                if ($r->status == '0') {
-                                    $edit = "<a href=" . base_url() . "pengurus/keanggotaan/editcalonanggota/" . $r->no_anggota . ">Edit</a>";
-                                    $desc = "Calon anggota";
-                                } else {
-                                    $edit = "Terdaftar";
-                                    $desc = "Anggota";
-                                }
-                            ?>
-                                <tr>
-                                    <td><?= $no; ?>.</td>
-                                    <td><?= $r->nama ?></td>
-                                    <td><?= $r->join_date ?></td>
-                                    <td><?= $desc; ?></td>
-                                    <td><?= $edit; ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php } ?>
-                        </tbody>
+
                     </table>
                 </div>
             </section>
@@ -71,3 +51,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/keanggotaan/fetch_calgot'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 3, 4],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

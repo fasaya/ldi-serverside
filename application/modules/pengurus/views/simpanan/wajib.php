@@ -38,7 +38,7 @@
                 </header>
                 <div class="card-body">
                     <a href="<?= base_url() ?>pengurus/simpanan/exportwajib" target="_blank" type="submit" class="btn btn-default mb-3">Export</a>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -49,23 +49,6 @@
                                 <th class="text-center">Biaya</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($simpanan as $r) { ?>
-                                <tr>
-                                    <td class="text-center"><?= $no; ?>.</td>
-                                    <td><?= $r->date; ?></td>
-                                    <td>
-                                        <b class="text-primary"><?= $r->no_anggota; ?></b><br>
-                                        <?= $r->nama; ?>
-                                    </td>
-                                    <td><?= $r->bulan_tahun; ?></td>
-                                    <td><?= $r->kode_tr; ?></td>
-                                    <td><?= rupiah($r->amount); ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php } ?>
-                        </tbody>
                     </table>
                 </div>
             </section>
@@ -74,3 +57,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/simpanan/fetch_simpWajib'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 5],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

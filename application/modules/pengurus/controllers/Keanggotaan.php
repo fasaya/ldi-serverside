@@ -76,14 +76,14 @@ class Keanggotaan extends CI_Controller
 
     public function anggota()
     {
-        $main['list_anggota'] = $this->Keanggotaan->anggota();
-        $this->Main->view('keanggotaan/semua_anggota', $main);
+        // $main['list_anggota'] = $this->Keanggotaan->anggota();
+        $this->Main->view('keanggotaan/semua_anggota');
     }
 
     public function calonanggota()
     {
-        $main['list_anggota'] = $this->Keanggotaan->anggota("0");
-        $this->Main->view('keanggotaan/semua_anggota', $main);
+        // $main['list_anggota'] = $this->Keanggotaan->semua_anggota("0");
+        $this->Main->view('keanggotaan/semua_calon_anggota');
     }
 
     public function mutasi($no_anggota)
@@ -122,8 +122,8 @@ class Keanggotaan extends CI_Controller
 
     public function pendaftaranreferral()
     {
-        $main['list_anggota'] = $this->Keanggotaan->calonanggotadarireferral();
-        $this->Main->view('keanggotaan/list_calon_anggota', $main);
+        // $main['list_anggota'] = $this->Keanggotaan->calonanggotadarireferral();
+        $this->Main->view('keanggotaan/list_calon_anggota');
     }
 
     public function editcalonanggota($no_anggota = "")
@@ -326,7 +326,7 @@ class Keanggotaan extends CI_Controller
             redirect('pengurus/keanggotaan/anggota');
         }
     }
-    
+
     public function upusername($no_anggota)
     {
         if ($no_anggota != "") {
@@ -354,8 +354,7 @@ class Keanggotaan extends CI_Controller
                                     </div>'
                         );
                         redirect('pengurus/keanggotaan/dataanggota/' . $no_anggota);
-                    
-                    }else {
+                    } else {
                         $this->session->set_flashdata(
                             'message',
                             '<div class="alert alert-danger">
@@ -387,7 +386,7 @@ class Keanggotaan extends CI_Controller
             redirect('pengurus/keanggotaan/anggota');
         }
     }
-    
+
     public function passanggota($no_anggota)
     {
         if ($no_anggota != "") {
@@ -480,12 +479,12 @@ class Keanggotaan extends CI_Controller
 
     public function transaksianggota()
     {
-        $main['mutasi'] = $this->Keanggotaan->semuaTransaksi();
-        $this->Main->view('keanggotaan/semua_transaksi', $main);
+        // $main['mutasi'] = $this->Keanggotaan->semuaTransaksi();
+        $this->Main->view('keanggotaan/semua_transaksi');
     }
 
     // ###############################################
-
+    // EXPORT
 
     public function export()
     {
@@ -597,8 +596,7 @@ class Keanggotaan extends CI_Controller
         // $result = $query->row_array();
         if ($query->num_rows() + 1 <= 1) {
             return TRUE;
-        } elseif($query->num_rows() == 1){
-
+        } elseif ($query->num_rows() == 1) {
         } else {
             $this->form_validation->set_message('update_username_check', '{field} ' . $username . ' telah digunakan.');
             return FALSE;
@@ -706,4 +704,118 @@ class Keanggotaan extends CI_Controller
 
     // ################################
 
+    // datatable
+    function fetch_anggota($status)
+    {
+        $fetch_data = $this->Keanggotaan->make_datatables_anggota($status);
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+            $id_parent = $r->id_parent;
+            if ($id_parent != 0) {
+                $query = $this->db->query(' SELECT nama, no_anggota
+                                            FROM tb_anggota 
+                                            WHERE id_anggota = "' . $id_parent . '" ');
+                $result = $query->row_array();
+                $no_parent = $result['no_anggota'];
+                $nama_parent = $result['nama'];
+            } else {
+                $no_parent = "";
+                $nama_parent = "-";
+            }
+
+            if ($r->status == '1') {
+                $ket = "Anggota";
+                $st = "Aktif";
+                $link = '<a href="' . base_url() . 'pengurus/keanggotaan/dataanggota/' . $r->no_anggota . '">Edit Data</a> | <a href="' . base_url() . 'pengurus/keanggotaan/mutasi/' . $r->no_anggota . '">Lihat Mutasi</a>';
+            } else {
+                $ket = "Calon anggota";
+                $st = "Non-aktif";
+                $link = '';
+            }
+
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>
+            <b>' . $r->username . '</b> /
+            ' . $r->email . '<br>
+            ' . $r->nama;
+            $sub_array[] = '<b class="text-primary">' . $no_parent . '</b><br>' . $nama_parent;
+            $sub_array[] = $r->join_date;
+            $sub_array[] = $ket;
+            $sub_array[] = $st;
+            $sub_array[] = $link;
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Keanggotaan->get_all_data_anggota($status),
+            "recordsFiltered" => $this->Keanggotaan->get_filtered_data_anggota($status),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    function fetch_semua_mutasi()
+    {
+        $fetch_data = $this->Keanggotaan->make_datatables_mutasi();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = $r->date;
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = $r->kode_tr;
+            $sub_array[] = rupiah($r->debit);
+            $sub_array[] = rupiah($r->credit);
+            $sub_array[] = rupiah($r->saldo);
+            $sub_array[] = $r->deskripsi;
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => get_all_data("tb_report"),
+            "recordsFiltered" => $this->Keanggotaan->get_filtered_data_mutasi(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+
+    function fetch_calgot()
+    {
+        $fetch_data = $this->Keanggotaan->make_datatables_daftarRef();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+            if ($r->status == '0') {
+                $edit = "<a href=" . base_url() . "pengurus/keanggotaan/editcalonanggota/" . $r->no_anggota . ">Edit</a>";
+                $desc = "Calon anggota";
+            } else {
+                $edit = "Terdaftar";
+                $desc = "Anggota";
+            }
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = $r->nama;
+            $sub_array[] = $r->join_date;
+            $sub_array[] = $desc;
+            $sub_array[] = $edit;
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Keanggotaan->get_all_data_daftarRef(),
+            "recordsFiltered" => $this->Keanggotaan->get_filtered_data_daftarRef(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
 }

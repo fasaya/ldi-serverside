@@ -3,6 +3,178 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Keanggotaan_model extends CI_Model
 {
+    // ##############################
+    // DATATABLES
+    // anggota dan calon anggota
+    function make_query_anggota($status)
+    {
+
+        $this->db->select("username, nama, no_anggota, join_date, status, is_active, email, id_parent");
+        $this->db->from("tb_anggota");
+        $this->db->where("status", "$status");
+        $column_search = array('nama', 'username', 'no_anggota', 'email');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "no_anggota", null, "join_date", null, null, null);
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by('no_anggota', 'DESC');
+        }
+    }
+    function make_datatables_anggota($status)
+    {
+        $this->make_query_anggota($status);
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_anggota($status)
+    {
+        $this->make_query_anggota($status);
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function get_all_data_anggota($status)
+    {
+        $this->db->select("*");
+        $this->db->from("tb_anggota");
+        $this->db->where("status", $status);
+        return $this->db->count_all_results();
+    }
+
+    // semua mutasi / transaksi
+    function make_query_mutasi()
+    {
+
+        $this->db->select("tb_anggota.no_anggota, tb_anggota.nama, tb_report.kode_tr, tb_report.debit, tb_report.credit, tb_report.saldo, tb_report.deskripsi, tb_report.date");
+        $this->db->where("tb_report.id_anggota = tb_anggota.id_anggota");
+        $this->db->from("tb_report, tb_anggota");
+
+        $column_search = array('no_anggota', 'nama', 'kode_tr', 'date');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "date", "no_anggota", "kode_tr", null, null, null, null);
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("date", "DESC");
+        }
+    }
+    function make_datatables_mutasi()
+    {
+        $this->make_query_mutasi();
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_mutasi()
+    {
+        $this->make_query_mutasi();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    // pendaftar (calon anggota)
+    function make_query_daftarRef()
+    {
+
+        $this->db->select("nama, no_anggota, join_date, status");
+        $this->db->where("id_parent", "0");
+        $this->db->from("tb_anggota");
+
+        $column_search = array('nama', 'join_date', 'no_anggota');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "nama", "join_date", null, null);
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("join_date", "DESC");
+        }
+    }
+    function make_datatables_daftarRef()
+    {
+        $this->make_query_daftarRef();
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_daftarRef()
+    {
+        $this->make_query_daftarRef();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function get_all_data_daftarRef()
+    {
+        $this->make_query_daftarRef();
+        return $this->db->count_all_results();
+    }
+
+
+
+
+    // ##############################
+
+
     function anggota($status = "1")
     {
         $this->db->select("username, nama, no_anggota, join_date, status, is_active, email, id_parent");
@@ -281,9 +453,9 @@ class Keanggotaan_model extends CI_Model
         $this->db->trans_start();
 
         $no_anggota_full = $data['no_anggota'];
-        $no_anggota = ltrim($no_anggota_full, "0"); 
+        $no_anggota = ltrim($no_anggota_full, "0");
         $input_anggota_baru = $data['no_anggota_baru'];
-        $no_anggota_baru = ltrim($input_anggota_baru, "0"); 
+        $no_anggota_baru = ltrim($input_anggota_baru, "0");
 
         $karakter = strlen($no_anggota_baru);
         if ($karakter == 1) {
@@ -301,7 +473,7 @@ class Keanggotaan_model extends CI_Model
         } else {
             $no_anggota_baru_full = $no_anggota_baru;
         }
-        
+
         $this->db->update('tb_anggota', ['id_anggota' => $no_anggota_baru], "id_anggota = '" . $no_anggota . "'");
         $this->db->update('tb_anggota', ['id_parent' => $no_anggota_baru], "id_parent = '" . $no_anggota . "'");
         $this->db->update('tb_anggota', ['no_anggota' => $no_anggota_baru_full], "no_anggota = '" . $no_anggota_full . "'");
@@ -309,8 +481,8 @@ class Keanggotaan_model extends CI_Model
         $this->db->update('tb_biaya_pendaftaran', ['id_anggota' => $no_anggota_baru], "id_anggota = '" . $no_anggota . "'");
         $this->db->update('tb_bonus_sponsor', ['id_child' => $no_anggota_baru], "id_child = '" . $no_anggota . "'");
         $this->db->update('tb_report_activity', ['id_user' => $no_anggota_baru], "id_user = '" . $no_anggota . "' AND user ='anggota'");
-        $this->db->query("UPDATE tb_report_activity SET keterangan = replace(keterangan, '[".$no_anggota_full."]', '[".$no_anggota_baru_full."]')");
-        $this->db->query("UPDATE tb_report SET deskripsi = replace(deskripsi, '[".$no_anggota_full."]', '[".$no_anggota_baru_full."]')");
+        $this->db->query("UPDATE tb_report_activity SET keterangan = replace(keterangan, '[" . $no_anggota_full . "]', '[" . $no_anggota_baru_full . "]')");
+        $this->db->query("UPDATE tb_report SET deskripsi = replace(deskripsi, '[" . $no_anggota_full . "]', '[" . $no_anggota_baru_full . "]')");
 
         //Start database transaction
         $this->db->trans_complete();
@@ -335,7 +507,7 @@ class Keanggotaan_model extends CI_Model
             redirect('pengurus/keanggotaan/dataanggota/' . $no_anggota_baru_full);
         }
     }
-    
+
     public function updatePassword($tipe, $data)
     {
         //Start database transaction

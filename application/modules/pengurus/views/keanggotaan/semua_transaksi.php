@@ -97,7 +97,7 @@
                 </header>
                 <div class="card-body">
 
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -110,25 +110,6 @@
                                 <th>Deskripsi</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($mutasi as $r) { ?>
-                                <tr>
-                                    <td><?= $no; ?>.</td>
-                                    <td><?= $r->date ?></td>
-                                    <td>
-                                        <b class="text-primary"><?= $r->no_anggota; ?></b><br>
-                                        <?= $r->nama; ?>
-                                    </td>
-                                    <td><?= $r->kode_tr ?></td>
-                                    <td><?= rupiah($r->debit) ?></td>
-                                    <td><?= rupiah($r->credit) ?></td>
-                                    <td><?= rupiah($r->saldo) ?></td>
-                                    <td><?= $r->deskripsi ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php } ?>
-                        </tbody>
                     </table>
                 </div>
             </section>
@@ -137,3 +118,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/keanggotaan/fetch_semua_mutasi'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 2, 3, 4, 5, 6, 7],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

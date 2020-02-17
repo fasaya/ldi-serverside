@@ -10,7 +10,7 @@
                     </a>
                 </li>
                 <li><span>Keanggotaan</span></li>
-                <li><span>Daftar Anggota</span></li>
+                <li><span>Daftar Calon Anggota</span></li>
             </ol>
         </div>
     </header>
@@ -28,7 +28,7 @@
         <div class="col-md-12">
             <section class="card">
                 <header class="card-header">
-                    <h2 class="card-title">Daftar Anggota</h2>
+                    <h2 class="card-title">Daftar Calon Anggota</h2>
                     <!-- <p class="card-subtitle">A bar chart is a way of summarizing a set of categorical data.</p> -->
                 </header>
                 <div class="card-body">
@@ -45,6 +45,7 @@
                                 <th>Detail</th>
                             </tr>
                         </thead>
+
                     </table>
                 </div>
             </section>
@@ -61,7 +62,7 @@
             "serverSide": true,
             "order": [],
             "ajax": {
-                url: "<?= base_url() . 'pengurus/keanggotaan/fetch_anggota/1'; ?>",
+                url: "<?= base_url() . 'pengurus/keanggotaan/fetch_anggota/0'; ?>",
                 type: "POST"
             },
             "columnDefs": [{
