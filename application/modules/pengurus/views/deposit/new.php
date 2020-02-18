@@ -31,7 +31,7 @@
                 </header>
                 <div class="card-body">
                     <?= $this->session->flashdata('message'); ?>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -118,3 +118,21 @@
         }
     }
 </script>
+
+<!-- <script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/deposit/fetch_deponew'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 3, 4, 6, 7],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script> -->

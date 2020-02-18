@@ -90,4 +90,113 @@ class Deposit extends CI_Controller
             echo $this->Deposit->fetch_depo_detail($this->input->post('code'));
         }
     }
+
+    // ################################################
+    // datatables
+    function fetch_deponew()
+    {
+        $fetch_data = $this->Deposit->make_datatables_deponew();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+
+            $stts = $r->status;
+            if ($stts == '0') {
+                $status = '<span class="badge badge-info">Baru</span>';
+            } elseif ($stts == '1') {
+                $status = '<span class="badge badge-success">Telah diproses</span>';
+            } elseif ($stts == '2') {
+                $status = '<span class="badge badge-warning">Pending</span>';
+            }
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = rupiah($r->amount + $r->last_code);
+            $sub_array[] = $r->gateway;
+            $sub_array[] = $r->code;
+            $sub_array[] = $r->date;
+            $sub_array[] = $status;
+            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->code . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Deposit->get_all_data_deponew(),
+            "recordsFiltered" => $this->Deposit->get_filtered_data_deponew(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    function fetch_depoprocessed()
+    {
+        $fetch_data = $this->Deposit->make_datatables_depoprocessed();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+
+            $stts = $r->status;
+            if ($stts == '1') {
+                $status = '<span class="badge badge-success">Telah diproses</span>';
+            } elseif ($stts == '9') {
+                $status = '<span class="badge badge-danger">Dibatalkan</span>';
+            }
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = rupiah($r->amount + $r->last_code);
+            $sub_array[] = $r->gateway;
+            $sub_array[] = $r->code;
+            $sub_array[] = $r->date;
+            $sub_array[] = $status;
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Deposit->get_all_data_depoprocessed(),
+            "recordsFiltered" => $this->Deposit->get_filtered_data_depoprocessed(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    function fetch_depopending()
+    {
+        $fetch_data = $this->Deposit->make_datatables_depopending();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+
+            $stts = $r->status;
+            if ($stts == '0') {
+                $status = '<span class="badge badge-info">New</span>';
+            } elseif ($stts == '1') {
+                $status = '<span class="badge badge-success">Telah diproses</span>';
+            } elseif ($stts == '2') {
+                $status = '<span class="badge badge-warning">Pending</span>';
+            }
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = rupiah($r->amount + $r->last_code);
+            $sub_array[] = $r->gateway;
+            $sub_array[] = $r->code;
+            $sub_array[] = $r->date;
+            $sub_array[] = $status;
+            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->code . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Deposit->get_all_data_depopending(),
+            "recordsFiltered" => $this->Deposit->get_filtered_data_depopending(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
 }

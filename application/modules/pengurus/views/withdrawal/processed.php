@@ -32,11 +32,12 @@
                 <div class="card-body">
                     <?= $this->session->flashdata('message'); ?>
                     <a href="<?= base_url() ?>pengurus/withdrawal/export" target="_blank" type="submit" class="btn btn-default mb-3">Export</a>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Anggota</th>
+                                <th>No. Ref</th>
                                 <th>Jumlah Transfer</th>
                                 <th>Biaya Admin</th>
                                 <th>Total Withdraw</th>
@@ -44,33 +45,7 @@
                                 <th>Tanggal</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($record as $u) :  ?>
-                                <?php
-                                $stts = $u->status;
-                                if ($stts == '1') {
-                                    $status = 'Transfer ke ' . $u->gateway . ' - ' . $u->no_rek;
-                                } elseif ($stts == '9') {
-                                    $status = 'Dibatalkan';
-                                }
-                                ?>
 
-                                <tr>
-                                    <td class="text-center"><?= $no; ?>.</td>
-                                    <td>
-                                        <b class="text-primary"><?= $u->no_anggota; ?></b><br>
-                                        <?= $u->nama; ?>
-                                    </td>
-                                    <td><strong><?= $currency; ?> <?= rupiah($u->amount); ?></strong></td>
-                                    <td><?= $currency; ?> <?= rupiah($u->biaya_admin); ?></td>
-                                    <td class="text-danger">-<?= $currency; ?> <?= rupiah($u->amount_request); ?></td>
-                                    <td><?= $status; ?></td>
-                                    <td><?= $u->date; ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php endforeach; ?>
-                        </tbody>
                     </table>
                 </div>
             </section>
@@ -79,3 +54,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/withdrawal/fetch_wdprocessed'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 6],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

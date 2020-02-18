@@ -101,4 +101,92 @@ class Withdrawal extends CI_Controller
             echo $this->Withdraw->fetch_wd_detail($this->input->post('id_wd'));
         }
     }
+
+    // ################################################
+    // datatables
+    function fetch_wdnew()
+    {
+        $fetch_data = $this->Withdraw->make_datatables_wdnew();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = $r->kode_tr;
+            $sub_array[] = rupiah($r->amount);
+            $sub_array[] = $r->date;
+            $sub_array[] = '<span class="badge badge-warning">On Process</span>';
+            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->id_withdrawal . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Withdraw->get_all_data_wdnew(),
+            "recordsFiltered" => $this->Withdraw->get_filtered_data_wdnew(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    function fetch_wdprocessed()
+    {
+        $fetch_data = $this->Withdraw->make_datatables_wdprocessed();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+
+            $stts = $r->status;
+            if ($stts == '1') {
+                $status = 'Transfer ke ' . $r->gateway . ' - ' . $r->no_rek;
+            } elseif ($stts == '9') {
+                $status = 'Dibatalkan';
+            }
+
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = $r->kode_tr;
+            $sub_array[] = rupiah($r->amount);
+            $sub_array[] = rupiah($r->biaya_admin);
+            $sub_array[] = "-" . rupiah($r->amount_request);;
+            $sub_array[] = $status;
+            $sub_array[] = $r->date;
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Withdraw->get_all_data_wdprocessed(),
+            "recordsFiltered" => $this->Withdraw->get_filtered_data_wdprocessed(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
+
+    function fetch_wdcancelled()
+    {
+        $fetch_data = $this->Withdraw->make_datatables_wdcancelled();
+        $data = array();
+        $no = 1;
+        foreach ($fetch_data as $r) {
+            $sub_array = array();
+            $sub_array[] = $no . ".";
+            $sub_array[] = '<b class="text-primary">' . $r->no_anggota . '</b><br>' . $r->nama;
+            $sub_array[] = $r->kode_tr;
+            $sub_array[] = rupiah($r->amount);
+            $sub_array[] = $r->date;
+            $sub_array[] = '<span class="badge badge-danger">Dibatalkan</span>';
+            $data[] = $sub_array;
+            $no++;
+        }
+        $output = array(
+            "draw" => intval($_POST["draw"]),
+            "recordsTotal" => $this->Withdraw->get_all_data_wdcancelled(),
+            "recordsFiltered" => $this->Withdraw->get_filtered_data_wdcancelled(),
+            "data" => $data
+        );
+        echo json_encode($output);
+    }
 }

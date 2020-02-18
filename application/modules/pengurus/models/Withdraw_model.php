@@ -5,6 +5,181 @@ class Withdraw_model extends CI_Model
 {
     // ########################################################################
 
+    // DATATABLES
+    // NEW WD
+    function make_query_wdnew()
+    {
+
+        $this->db->select("tb_withdrawal.*, tb_anggota.no_anggota, tb_anggota.nama");
+        $this->db->where("tb_withdrawal.id_anggota = tb_anggota.id_anggota");
+        $this->db->where("tb_withdrawal.status", '0');
+        $this->db->from("tb_withdrawal, tb_anggota");
+
+        $column_search = array('tb_withdrawal.kode_tr', 'tb_withdrawal.date', 'tb_withdrawal.gateway', 'tb_anggota.nama', 'tb_anggota.no_anggota', 'tb_withdrawal.amount', 'tb_withdrawal.amount_request');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "no_anggota", 'kode_tr', "amount", "date", null, null);
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("date", "DESC");
+        }
+    }
+    function make_datatables_wdnew()
+    {
+        $this->make_query_wdnew();
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_wdnew()
+    {
+        $this->make_query_wdnew();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function get_all_data_wdnew()
+    {
+        $this->make_query_wdnew();
+        return $this->db->count_all_results();
+    }
+
+    // PROCESSED WD
+    function make_query_wdprocessed()
+    {
+
+        $this->db->select("tb_withdrawal.*, tb_anggota.no_anggota, tb_anggota.nama, tb_biaya_withdraw.amount AS biaya_admin");
+        $this->db->where("tb_withdrawal.id_withdrawal = tb_biaya_withdraw.id_withdrawal");
+        $this->db->where("tb_withdrawal.id_anggota = tb_anggota.id_anggota");
+        $this->db->where("tb_withdrawal.status = '1'");
+        $this->db->from("tb_withdrawal, tb_anggota, tb_biaya_withdraw");
+
+        $column_search = array('tb_withdrawal.kode_tr', 'tb_withdrawal.date', 'tb_withdrawal.gateway', 'tb_anggota.nama', 'tb_anggota.no_anggota', 'tb_withdrawal.amount', 'tb_withdrawal.amount_request', 'tb_biaya_withdraw.amount');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "no_anggota", 'kode_tr', "amount", "biaya_admin", "amount_request", null, "date");
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("date", "DESC");
+        }
+    }
+    function make_datatables_wdprocessed()
+    {
+        $this->make_query_wdprocessed();
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_wdprocessed()
+    {
+        $this->make_query_wdprocessed();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function get_all_data_wdprocessed()
+    {
+        $this->make_query_wdprocessed();
+        return $this->db->count_all_results();
+    }
+
+    // CANCELLED WD
+    function make_query_wdcancelled()
+    {
+
+        $this->db->select("tb_withdrawal.*, tb_anggota.no_anggota, tb_anggota.nama");
+        $this->db->where("tb_withdrawal.id_anggota = tb_anggota.id_anggota");
+        $this->db->where("tb_withdrawal.status = '9'");
+        $this->db->from("tb_withdrawal, tb_anggota");
+
+        $column_search = array('tb_withdrawal.kode_tr', 'tb_withdrawal.date', 'tb_anggota.nama', 'tb_anggota.no_anggota', 'tb_withdrawal.amount');
+        $i = 0;
+        foreach ($column_search as $item) // loop column 
+        {
+            if ($_POST['search']['value']) // if datatable send POST for search
+            {
+
+                if ($i === 0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                    $this->db->like($item, $_POST['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if (count($column_search) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $i++;
+        }
+        if (isset($_POST["order"])) {
+            $order_column = array(null, "no_anggota", 'kode_tr', "amount", "date", null);
+            $this->db->order_by($order_column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } else {
+            $this->db->order_by("date", "DESC");
+        }
+    }
+    function make_datatables_wdcancelled()
+    {
+        $this->make_query_wdcancelled();
+        if ($_POST["length"] != -1) {
+            $this->db->limit($_POST['length'], $_POST['start']);
+        }
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function get_filtered_data_wdcancelled()
+    {
+        $this->make_query_wdcancelled();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function get_all_data_wdcancelled()
+    {
+        $this->make_query_wdcancelled();
+        return $this->db->count_all_results();
+    }
+
+    // ########################################################################
+
     function get_onprocess_wd()
     {
         return $this->db->select("tb_withdrawal.*, tb_anggota.no_anggota, tb_anggota.nama")

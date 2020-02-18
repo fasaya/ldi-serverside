@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <?= $this->session->flashdata('message'); ?>
                     <a href="<?= base_url() ?>pengurus/deposit/export" target="_blank" type="submit" class="btn btn-default mb-3">Export</a>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -44,32 +44,7 @@
                                 <th>Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($record as $u) :  ?>
-                                <?php
-                                $stts = $u->status;
-                                if ($stts == '1') {
-                                    $status = '<span class="badge badge-success">Telah diproses</span>';
-                                } elseif ($stts == '9') {
-                                    $status = '<span class="badge badge-danger">Dibatalkan</span>';
-                                }
-                                ?>
-                                <tr>
-                                    <td class="text-center"><?= $no; ?>.</td>
-                                    <td>
-                                        <b class="text-primary"><?= $u->no_anggota; ?></b><br>
-                                        <?= $u->nama; ?>
-                                    </td>
-                                    <td><?= $currency; ?> <?= rupiah($u->amount + $u->last_code); ?></td>
-                                    <td><?= $u->gateway; ?></td>
-                                    <td><?= $u->code; ?></td>
-                                    <td><?= $u->date; ?></td>
-                                    <td><?= $status; ?></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php endforeach; ?>
-                        </tbody>
+
                     </table>
                 </div>
             </section>
@@ -78,3 +53,21 @@
 
     <!-- end: page -->
 </section>
+
+<script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/deposit/fetch_depoprocessed'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 3, 4, 6],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script>

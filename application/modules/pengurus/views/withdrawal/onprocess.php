@@ -37,7 +37,7 @@
                         </div>
                     <?php endif; ?>
                     <?= $this->session->flashdata('message'); ?>
-                    <table class="table table-bordered table-striped mb-0" id="datatable-default">
+                    <table class="table table-bordered table-striped mb-0" id="tableku">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -112,3 +112,21 @@
         }
     }
 </script>
+
+<!-- <script type="text/javascript" language="javascript">
+    $(document).ready(function() {
+        var dataTable = $('#tableku').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                url: "<?= base_url() . 'pengurus/withdrawal/fetch_wdnew'; ?>",
+                type: "POST"
+            },
+            "columnDefs": [{
+                "targets": [0, 5, 6],
+                "orderable": false,
+            }, ],
+        });
+    });
+</script> -->
