@@ -95,10 +95,10 @@ class Withdrawal extends CI_Controller
     //#################################
 
 
-    public function fetch_wd_detail()
+    public function fetch_wd_detail($id_wd = "")
     {
-        if ($this->input->post('id_wd')) {
-            echo $this->Withdraw->fetch_wd_detail($this->input->post('id_wd'));
+        if ($id_wd != "") {
+            echo $this->Withdraw->fetch_wd_detail($id_wd);
         }
     }
 
@@ -117,7 +117,7 @@ class Withdrawal extends CI_Controller
             $sub_array[] = rupiah($r->amount);
             $sub_array[] = $r->date;
             $sub_array[] = '<span class="badge badge-warning">On Process</span>';
-            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->id_withdrawal . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $sub_array[] = '<a id="wddetail" onclick="showDataToModal(\'' . $r->id_withdrawal . '\')" class="modal-basic" href="' . base_url() . 'pengurus/withdrawal/fetch_wd_detail/' . $r->id_withdrawal . '"><button class="btn btn-sm btn-info"><i class="fas fa-edit text-light"></i></button></a>';
             $data[] = $sub_array;
             $no++;
         }

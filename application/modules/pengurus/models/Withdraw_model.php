@@ -425,10 +425,7 @@ class Withdraw_model extends CI_Model
 
             if ($status == '0') { //ON PROCESS
                 $output = '
-                <header class="card-header">
-                    <h2 class="card-title">Withdrawal Detail</h2>
-                </header>
-                <div class="card-body">
+                
                     <div class="text-center">
                         <h3 class="font-weight-semibold mt-1 mb-2 text-center"><span class="badge badge-info">Withdrawal Request</span></h3>
                     </div>
@@ -495,10 +492,9 @@ class Withdraw_model extends CI_Model
                         </table>
                         <div class="float-right">
                             <button class="btn btn-primary" type="submit">Submit</button>
-                            <button class="btn btn-default modal-dismiss">Close</button>
+                            <button class="btn btn-default" data-dismiss="modal">Close</button>
                         <div>
                     </form>
-                </div>
                 ';
             }
             return $output;

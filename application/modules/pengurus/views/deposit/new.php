@@ -44,35 +44,7 @@
                                 <th>Proses</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <?php $no = 1; ?>
-                            <?php foreach ($record as $u) :  ?>
-                                <?php
-                                $stts = $u->status;
-                                if ($stts == '0') {
-                                    $status = '<span class="badge badge-info">Baru</span>';
-                                } elseif ($stts == '1') {
-                                    $status = '<span class="badge badge-success">Telah diproses</span>';
-                                } elseif ($stts == '2') {
-                                    $status = '<span class="badge badge-warning">Pending</span>';
-                                }
-                                ?>
-                                <tr>
-                                    <td class="text-center"><?= $no; ?>.</td>
-                                    <td>
-                                        <b class="text-primary"><?= $u->no_anggota; ?></b><br>
-                                        <?= $u->nama; ?>
-                                    </td>
-                                    <td><?= $currency; ?> <?= rupiah($u->amount + $u->last_code); ?></td>
-                                    <td><?= $u->gateway; ?></td>
-                                    <td><?= $u->code; ?></td>
-                                    <td><?= $u->date; ?></td>
-                                    <td><?= $status; ?></td>
-                                    <td class="text-center"><a onclick="showDataToModal('<?= $u->code; ?>')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a></td>
-                                </tr>
-                                <?php $no++; ?>
-                            <?php endforeach; ?>
-                        </tbody>
+
                     </table>
                 </div>
             </section>
@@ -82,44 +54,53 @@
     <!-- end: page -->
 </section>
 
-<div id="modalGateway" class="zoom-anim-dialog modal-block modal-header-color modal-block-primary mfp-hide">
-    <section class="card" id="isiCard">
-        <header class="card-header">
-            <h2 class="card-title">Deposit Detail</h2>
-        </header>
-        <div class="card-body">
-            <p class="text-center">Loading...</p>
-        </div>
-        <footer class="card-footer">
-            <div class="row">
-                <div class="col-md-12 text-right">
-                    <button class="btn btn-default modal-dismiss">Cancel</button>
-                </div>
-            </div>
-        </footer>
-    </section>
-</div>
+
+
+
 
 <!-- JS -->
-<script>
-    function showDataToModal(code) {
+<script type="text/javascript" language="javascript">
+    // function showDataToModal(code) {
 
-        if (code != '') {
-            $.ajax({
-                url: "<?= base_url(); ?>pengurus/deposit/fetch_depo_detail",
-                method: "POST",
-                data: {
-                    code: code
-                },
-                success: function(data) {
-                    $('#isiCard').html(data);
-                }
-            });
-        }
-    }
-</script>
+    //     // if (code != '') {
+    //     //     $.ajax({
+    //     //         url: "<?= base_url(); ?>pengurus/deposit/fetch_depo_detail",
+    //     //         method: "POST",
+    //     //         data: {
+    //     //             code: code
+    //     //         },
+    //     //         success: function(data) {
+    //     //             $('#isiCard').html(data);
+    //     //         }
+    //     //     });
+    //     // }
 
-<!-- <script type="text/javascript" language="javascript">
+    //     $("#modalGateway").modal("show");
+
+    // }
+
+    // $(document).on("click", "#simpanan_pokok", function(e) {
+    //     e.preventDefault();
+    //     $('.modal-dialog').removeClass('modal-sm')
+    //         .removeClass('modal-md')
+    //         .addClass('modal-lg');
+    //     $("#modalTitle").text('Pembayaran Simpanan Pokok');
+    //     $('#modalContent').load($(this).attr("href"));
+    //     $("#modalGue").modal('show');
+    // })
+
+    $(document).on("click", "#depodetail", function(e) {
+        e.preventDefault();
+        $('.modal-dialog').removeClass('modal-sm')
+            .removeClass('modal-md')
+            .addClass('modal-lg');
+        $("#modal-title").text('Detail Deposit');
+        $("#modal-body").load($(this).attr("href"));
+        $("#modalKu").modal("show");
+    })
+
+
+
     $(document).ready(function() {
         var dataTable = $('#tableku').DataTable({
             "processing": true,
@@ -135,4 +116,4 @@
             }, ],
         });
     });
-</script> -->
+</script>

@@ -102,24 +102,34 @@
 
 <!-- JS -->
 <script>
-    function showDataToModal(code) {
+    // function showDataToModal(code) {
 
-        if (code != '') {
-            $.ajax({
-                url: "<?= base_url(); ?>pengurus/deposit/fetch_depo_detail",
-                method: "POST",
-                data: {
-                    code: code
-                },
-                success: function(data) {
-                    $('#isiCard').html(data);
-                }
-            });
-        }
-    }
+    //     if (code != '') {
+    //         $.ajax({
+    //             url: "<?= base_url(); ?>pengurus/deposit/fetch_depo_detail",
+    //             method: "POST",
+    //             data: {
+    //                 code: code
+    //             },
+    //             success: function(data) {
+    //                 $('#isiCard').html(data);
+    //             }
+    //         });
+    //     }
+    // }
 </script>
 
-<!-- <script type="text/javascript" language="javascript">
+<script type="text/javascript" language="javascript">
+    $(document).on("click", "#depodetail", function(e) {
+        e.preventDefault();
+        $('.modal-dialog').removeClass('modal-sm')
+            .removeClass('modal-md')
+            .addClass('modal-lg');
+        $("#modal-title").text('Detail Deposit');
+        $("#modal-body").load($(this).attr("href"));
+        $("#modalKu").modal("show");
+    })
+
     $(document).ready(function() {
         var dataTable = $('#tableku').DataTable({
             "processing": true,
@@ -135,4 +145,4 @@
             }, ],
         });
     });
-</script> -->
+</script>

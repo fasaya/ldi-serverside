@@ -95,25 +95,33 @@
 </div>
 
 <!-- JS -->
-<script>
-    function showDataToModal(id_wd) {
+<script type="text/javascript" language="javascript">
+    // function showDataToModal(id_wd) {
 
-        if (id_wd != '') {
-            $.ajax({
-                url: "<?= base_url(); ?>pengurus/withdrawal/fetch_wd_detail",
-                method: "POST",
-                data: {
-                    id_wd: id_wd
-                },
-                success: function(data) {
-                    $('#isiCard').html(data);
-                }
-            });
-        }
-    }
-</script>
+    //     if (id_wd != '') {
+    //         $.ajax({
+    //             url: "<?= base_url(); ?>pengurus/withdrawal/fetch_wd_detail",
+    //             method: "POST",
+    //             data: {
+    //                 id_wd: id_wd
+    //             },
+    //             success: function(data) {
+    //                 $('#isiCard').html(data);
+    //             }
+    //         });
+    //     }
+    // }
 
-<!-- <script type="text/javascript" language="javascript">
+    $(document).on("click", "#wddetail", function(e) {
+        e.preventDefault();
+        $('.modal-dialog').removeClass('modal-sm')
+            .removeClass('modal-md')
+            .addClass('modal-lg');
+        $("#modal-title").text('Detail Withdrawal');
+        $("#modal-body").load($(this).attr("href"));
+        $("#modalKu").modal("show");
+    })
+
     $(document).ready(function() {
         var dataTable = $('#tableku').DataTable({
             "processing": true,
@@ -129,4 +137,4 @@
             }, ],
         });
     });
-</script> -->
+</script>

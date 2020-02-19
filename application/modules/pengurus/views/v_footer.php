@@ -1,5 +1,29 @@
 </div>
 
+<div class="modal" tabindex="-1" role="dialog" id="modalKu">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" language="javascript">
+    $('#modalKu').on('hide.bs.modal', function() {
+        setTimeout(function() {
+            $('#modal-body').html('');
+        }, 500);
+    });
+</script>
+
 <div id="modalSuccess" class="zoom-anim-dialog modal-block modal-header-color modal-block-success mfp-hide">
     <section class="card" id="isiCard">
         <header class="card-header">

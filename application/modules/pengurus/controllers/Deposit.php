@@ -84,10 +84,10 @@ class Deposit extends CI_Controller
     // ################################################
 
 
-    public function fetch_depo_detail()
+    public function fetch_depo_detail($code = "")
     {
-        if ($this->input->post('code')) {
-            echo $this->Deposit->fetch_depo_detail($this->input->post('code'));
+        if ($code != "") {
+            echo $this->Deposit->fetch_depo_detail($code);
         }
     }
 
@@ -117,7 +117,7 @@ class Deposit extends CI_Controller
             $sub_array[] = $r->code;
             $sub_array[] = $r->date;
             $sub_array[] = $status;
-            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->code . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $sub_array[] = '<a id="depodetail"  href="' . base_url() . 'pengurus/deposit/fetch_depo_detail/' . $r->code . '"><button class="btn btn-sm btn-info"><i class="fas fa-edit text-light"></i></button></a>';
             $data[] = $sub_array;
             $no++;
         }
@@ -187,7 +187,7 @@ class Deposit extends CI_Controller
             $sub_array[] = $r->code;
             $sub_array[] = $r->date;
             $sub_array[] = $status;
-            $sub_array[] = '<a onclick="showDataToModal(\'' . $r->code . '\')" class="modal-basic" href="#modalGateway"><i class="fas fa-file-invoice fa-lg text-dark"></i> Proses</a>';
+            $sub_array[] = '<a id="depodetail" href="' . base_url() . 'pengurus/deposit/fetch_depo_detail/' . $r->code . '"><button class="btn btn-sm btn-info"><i class="fas fa-edit text-light"></i></button></a>';
             $data[] = $sub_array;
             $no++;
         }

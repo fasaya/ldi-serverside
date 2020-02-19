@@ -625,13 +625,7 @@ class Deposit_model extends CI_Model
 
                 $output = '
 
-                <header class="card-header">
-
-                    <h2 class="card-title">Detail Deposit</h2>
-
-                </header>
-
-                <div class="card-body">
+              
 
                     <div class="text-center">
 
@@ -795,13 +789,11 @@ class Deposit_model extends CI_Model
 
                             <button class="btn btn-primary" type="submit">Submit</button>
 
-                            <button class="btn btn-default modal-dismiss">Close</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                         <div>
 
                     </form>
-
-                </div>
 
                 ';
             }
